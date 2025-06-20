@@ -12,14 +12,12 @@ class MyModel(models.Model):
         ('draft', 'Draft'),
         ('confirmed', 'Confirmed'),
         ('done', 'Done')
-    ], string='Status', default='draft')  # 状态字段，选择类型，默认为草稿状态
+    ], string='Status', default='draft', index=True)  # 状态字段，选择类型，默认为草稿状态
 
     # 确认动作方法
     def action_confirm(self):
-        for record in self:
-            record.state = 'confirmed'  # 将状态更改为已确认
+        self.write({'state': 'confirmed'})
 
     # 完成动作方法
     def action_done(self):
-        for record in self:
-            record.state = 'done'  # 将状态更改为已完成
+        self.write({'state': 'done'})
